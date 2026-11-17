@@ -1,0 +1,24 @@
+name: Render keepalive
+on:
+  schedule:
+    # Away from the top of the hour. GitHub scheduling is best-effort.
+    - cron: '2-57/5 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: render-keepalive
+  cancel-in-progress: false
+jobs:
+  ping:
+    if: ${{ vars.RENDER_SERVICE_URL != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check the lightweight health endpoint (no model calls)
+        env:
+          RENDER_SERVICE_URL: ${{ vars.RENDER_SERVICE_URL }}
+        run: node deploy/render/keepalive.mjs

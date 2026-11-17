@@ -1,3 +1,5 @@
+> **This fork:** [Render Free deployment and external keepalive setup](deploy/render/README.md). Remote backup is needed to retain state on Render Free.
+
 <div align="center">
 
 # FreeLLMAPI

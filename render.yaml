@@ -1,0 +1,32 @@
+# Free Render has no persistent disk. Configure remote encrypted backups before use.
+services:
+  - type: web
+    name: freellmapi-nocodeknow
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/ping
+    autoDeployTrigger: off
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: TRUST_PROXY
+        value: "1"
+      - key: FREEAPI_DB_DIR_HARDENING
+        value: "1"
+      - key: FREEAPI_DB_PATH
+        value: /app/server/data/freellmapi.db
+      - key: ENCRYPTION_KEY
+        sync: false
+      - key: FREEAPI_CONFIG_JSON
+        sync: false
+      - key: FREEAPI_DB_BACKUP_URL
+        sync: false
+      - key: FREEAPI_DB_BACKUP_TOKEN
+        sync: false
+      - key: FREEAPI_DB_BACKUP_INTERVAL_MS
+        value: "300000"
